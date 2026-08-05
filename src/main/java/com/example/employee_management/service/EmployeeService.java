@@ -1,5 +1,6 @@
 package com.example.employee_management.service;
 
+import com.example.employee_management.exception.EmployeeNotFoundException;
 import com.example.employee_management.model.EmployeeEntity;
 import com.example.employee_management.repository.DepartmentRepository;
 import com.example.employee_management.repository.EmployeeRepository;
@@ -44,14 +45,18 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Long id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new EmployeeNotFoundException("Employee with id " + id + " not found");
+        }
         employeeRepository.deleteById(id);
     }
 
     public EmployeeEntity updateEmployee(Long id, Map<String, String> request) {
-        EmployeeEntity employeeEntity = employeeRepository.findById(id).get();
+        EmployeeEntity employeeEntity = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
         employeeEntity.setName(request.get("name"));
         employeeEntity.setEmail(request.get("email"));
         employeeEntity.setDepartmentEntity(departmentRepository.getByName(request.get("department")));
-        return employeeEntity;
+        return employeeRepository.save(employeeEntity);
     }
 }
