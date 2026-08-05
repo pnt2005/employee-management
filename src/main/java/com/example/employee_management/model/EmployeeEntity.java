@@ -1,7 +1,8 @@
 package com.example.employee_management.model;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "employee")
 public class EmployeeEntity {
@@ -9,7 +10,11 @@ public class EmployeeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name cannot be empty")
     private String name;
+    
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Email should be valid")
     private String email;
 
     @ManyToOne
