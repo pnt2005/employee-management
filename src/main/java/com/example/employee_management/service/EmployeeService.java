@@ -1,6 +1,7 @@
 package com.example.employee_management.service;
 
 import com.example.employee_management.exception.EmployeeNotFoundException;
+import com.example.employee_management.model.DepartmentEntity;
 import com.example.employee_management.model.EmployeeEntity;
 import com.example.employee_management.repository.DepartmentRepository;
 import com.example.employee_management.repository.EmployeeRepository;
@@ -22,13 +23,13 @@ public class EmployeeService {
 
     public List<EmployeeEntity> getEmployee(Map<String, String> params) {
         List<EmployeeEntity> employeeEntityList = new ArrayList<>();
-        String name = params.getOrDefault("name", null);
-        String department = params.getOrDefault("department", null);
+        String name = params.getOrDefault("name", "");
+        String department = params.getOrDefault("department", "");
         if (!name.isEmpty()) {
             employeeEntityList = employeeRepository.findAllByName(name);
         }
         else if (!department.isEmpty()) {
-            employeeEntityList = employeeRepository.findAllByDepartment(department);
+            employeeEntityList = employeeRepository.findAllByDepartmentName(department);
         }
         else {
             employeeEntityList = employeeRepository.findAll();
@@ -40,7 +41,10 @@ public class EmployeeService {
         EmployeeEntity employeeEntity = new EmployeeEntity();
         employeeEntity.setEmail(request.get("email"));
         employeeEntity.setName(request.get("name"));
-        employeeEntity.setDepartmentEntity(departmentRepository.getByName(request.get("department")));
+
+        DepartmentEntity departmentEntity = departmentRepository.getByName(request.get("department"));
+        employeeEntity.setDepartment(departmentEntity);
+        departmentEntity.getEmployeeEntityList().add(employeeEntity);
         return employeeRepository.save(employeeEntity);
     }
 
@@ -56,7 +60,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
         employeeEntity.setName(request.get("name"));
         employeeEntity.setEmail(request.get("email"));
-        employeeEntity.setDepartmentEntity(departmentRepository.getByName(request.get("department")));
+        employeeEntity.setDepartment(departmentRepository.getByName(request.get("department")));
         return employeeRepository.save(employeeEntity);
     }
 }

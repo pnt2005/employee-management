@@ -18,7 +18,7 @@ public class EmployeeEntity {
     private String email;
 
     @ManyToOne
-    private DepartmentEntity departmentEntity;
+    private DepartmentEntity department;
 
     public Long getId() {
         return id;
@@ -44,11 +44,11 @@ public class EmployeeEntity {
         this.email = email;
     }
 
-    public DepartmentEntity getDepartmentEntity() {
-        return departmentEntity;
+    public DepartmentEntity getDepartment() {
+        return department;
     }
 
-    public void setDepartmentEntity(DepartmentEntity departmentEntity) {
-        this.departmentEntity = departmentEntity;
+    public void setDepartment(DepartmentEntity department) {
+        this.department = department;
     }
 }
