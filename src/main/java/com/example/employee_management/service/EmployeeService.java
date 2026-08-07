@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,5 +85,13 @@ public class EmployeeService {
     @Cacheable("employee")
     public Integer getEmployeeQuantity() {
         return employeeRepository.findAll().size();
+    }
+
+    public Map<String, Integer> getEmployeeQuantityByDepartment(String department) {
+        Map<String, Integer> map = new HashMap<>();
+        for (DepartmentEntity departmentEntity : departmentRepository.findAll()) {
+            map.put(departmentEntity.getName(), departmentEntity.getEmployeeEntityList().size());
+        }
+        return map;
     }
 }
