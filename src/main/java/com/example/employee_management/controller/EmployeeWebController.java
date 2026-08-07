@@ -42,4 +42,11 @@ public class EmployeeWebController {
         employeeService.createEmployee(params);
         return "redirect:/employees/list";
     }
+
+    @GetMapping("/statistics")
+    public String showStatistics(Model model) {
+        model.addAttribute("totalQuantity", employeeService.getEmployeeQuantity());
+        model.addAttribute("quantityByDepartment", employeeService.getEmployeeQuantityByDepartment(""));
+        return "employee-statistics";
+    }
 }

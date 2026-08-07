@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f4f4f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            max-width: 600px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #0056b3;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .stats-container {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            max-width: 600px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Statistics</h1>
+    
+    <div class="stats-container">
+        <h2>Tổng số nhân viên trong hệ thống: <span style="color: #0056b3;" th:text="${totalQuantity}">0</span></h2>
+    </div>
+
+    <h2>Số lượng nhân viên theo phòng ban</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Phòng ban (Department)</th>
+                <th>Số lượng nhân viên (Quantity)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${quantityByDepartment}">
+                <td th:text="${entry.key}"></td>
+                <td th:text="${entry.value}"></td>
+            </tr>
+            <tr th:if="${#maps.isEmpty(quantityByDepartment)}">
+                <td colspan="2" style="text-align: center;">No data available</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 20px;">
+        <a href="/employees/list" style="padding: 10px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 4px;">Back to List</a>
+    </div>
+</body>
+</html>
