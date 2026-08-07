@@ -5,6 +5,8 @@ import com.example.employee_management.model.DepartmentEntity;
 import com.example.employee_management.model.EmployeeEntity;
 import com.example.employee_management.repository.DepartmentRepository;
 import com.example.employee_management.repository.EmployeeRepository;
+import org.jspecify.annotations.Nullable;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,5 +79,10 @@ public class EmployeeService {
         EmployeeEntity updatedEmployee = employeeRepository.save(employeeEntity);
         logger.info("Employee with id {} updated successfully", updatedEmployee.getId());
         return updatedEmployee;
+    }
+
+    @Cacheable("employee")
+    public Integer getEmployeeQuantity() {
+        return employeeRepository.findAll().size();
     }
 }

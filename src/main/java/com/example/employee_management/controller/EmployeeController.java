@@ -27,6 +27,11 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeEntityList);
     }
 
+    @GetMapping("/quantity")
+    public ResponseEntity<Integer> getEmployeeQuantity() {
+        return ResponseEntity.ok(employeeService.getEmployeeQuantity());
+    }
+
     @PostMapping
     public ResponseEntity<EmployeeEntity> createEmployee(@RequestBody Map<String, String> request) {
         EmployeeEntity employeeEntity = employeeService.createEmployee(request);
